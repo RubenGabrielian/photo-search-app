@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect} from 'react';
+import Photos from './components/Photos/Photos'
+import { bindActionCreators } from 'redux'
+import { init_photos } from './redux/actions/phtosActions'
+import { connect } from 'react-redux'
+import axios from 'axios'
+import Loading from './components/Loading/Loading'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App (props) {
+
+const [loading, setLoading] = useState(true)
+  
+useEffect(() => {
+  axios.get('https://pixabay.com/api/?key=8828319-b547bfac350a5cba5f6785026&q=yellow+flowers&image_type=photo&pretty=true')
+    .then((response) => {
+        const data = response.data.hits
+        props.init_photos(data)
+    }).then(() => {
+      setLoading(false)
+    })
+}, [])
+
+  
+    return (
+      <div className="App">
+          <Photos photos={props.photos} loading={loading}/>
+      </div>
+    );
+
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+      photos: state.photos.photos
+    }
+}
+
+const mapDispatchToStore = (dispatch) => {
+  return bindActionCreators({
+      init_photos
+  }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToStore)(App)
