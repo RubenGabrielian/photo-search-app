@@ -9,7 +9,6 @@ import Loading from './components/Loading/Loading'
 function App (props) {
 
 const [loading, setLoading] = useState(true)
-  
 useEffect(() => {
   axios.get('https://pixabay.com/api/?key=8828319-b547bfac350a5cba5f6785026&q=yellow+flowers&image_type=photo&pretty=true')
     .then((response) => {
@@ -31,7 +30,8 @@ useEffect(() => {
 
 const mapStateToProps = (state) => {
     return {
-      photos: state.photos.photos
+      photos: state.photos.photos,
+      loading: state.loading.loading
     }
 }
 

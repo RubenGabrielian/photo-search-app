@@ -1,8 +1,14 @@
 import React from 'react'
 import PhotoItem from './PhotoItem'
 import Loading from '../Loading/Loading'
+import { connect } from 'react-redux'
 
 const PhotosRow = (props) => {
+
+    if(props.new_loading) {
+        return <Loading />
+    }
+
     if(props.loading) {
         return <Loading />
     } else {
@@ -19,5 +25,11 @@ const PhotosRow = (props) => {
 
 }
 
+const mapStateToProps = (state) => {
+    return {
+        new_loading: state.loading.loading
+    }
+}
 
-export default PhotosRow
+
+export default connect(mapStateToProps)(PhotosRow)

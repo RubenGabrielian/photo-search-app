@@ -11,8 +11,6 @@ export const PhotosStyled = styled.div `
 
 
 const Photos = (props) => {
-
-    console.log(props.photos)
     return (
         <div className="container mt-5">
             <PhotosStyled>
